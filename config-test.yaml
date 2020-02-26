@@ -1,0 +1,10 @@
+addr: ":8080"
+gtm: "env[GTM_ENV]"
+list: 
+  - "first"
+  - "second"
+  - "third"
+database:
+  timeout: 12
+  dialect: "postgres"
+  url: "postgres://dbuser:env[DB_PASS]@localhost:5432/dbname?sslmode=disable"
