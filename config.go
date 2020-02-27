@@ -1,4 +1,4 @@
-package config
+package kconfig
 
 import (
 	"fmt"
