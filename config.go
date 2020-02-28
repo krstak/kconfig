@@ -39,6 +39,20 @@ func (c Config) GetInt(key string) int {
 	return 0
 }
 
+func (c Config) GetBool(key string) bool {
+	res := gjson.Get(c.json, key)
+
+	if res.Type == gjson.Null {
+		return false
+	}
+
+	if res.Type == gjson.True {
+		return res.Bool()
+	}
+
+	return false
+}
+
 func (c Config) GetSlice(key string) []string {
 	res := gjson.Get(c.json, key)
 

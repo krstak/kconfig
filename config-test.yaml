@@ -5,6 +5,8 @@ list:
   - "second"
   - "third"
 database:
+  use: true
+  rm: false
   timeout: 12
   dialect: "postgres"
   url: "postgres://dbuser:env[DB_PASS]@localhost:5432/dbname?sslmode=disable"

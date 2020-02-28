@@ -35,6 +35,14 @@ func TestGet(t *testing.T) {
 	testify.Equal(t)("", c.Get("unknown"))
 }
 
+func TestGetBool(t *testing.T) {
+	c, _ := Load("./config-test.yaml")
+
+	testify.Equal(t)(true, c.GetBool("database.use"))
+	testify.Equal(t)(false, c.GetBool("database.rm"))
+	testify.Equal(t)(false, c.GetBool("unknown"))
+}
+
 func TestGetInt(t *testing.T) {
 	c, _ := Load("./config-test.yaml")
 

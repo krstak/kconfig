@@ -5,6 +5,7 @@ Yaml file `my-file.yaml`:
 ```
 addr: ":8080"
 database:
+  use: true
   dialect: "postgres"
   timeout: 12
 list: 
@@ -23,6 +24,9 @@ c, err := kconfig.Load("./my-file.yaml")
 
 // returns string ":8080"
 c.Get("addr")
+
+// returns bool true
+c.GetBool("database.use")
 
 // returns string "postgres"
 c.Get("database.dialect")
