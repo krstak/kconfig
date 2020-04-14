@@ -1,6 +1,8 @@
 package kconfig
 
 import (
+	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -66,6 +68,16 @@ func (c Config) GetSlice(key string) []string {
 		sl = append(sl, i.String())
 	}
 	return sl
+}
+
+func (c Config) GetX(key string, v interface{}) error {
+	res := gjson.Get(c.json, key)
+
+	if res.Type == gjson.Null {
+		return errors.New("node not found")
+	}
+
+	return json.Unmarshal([]byte(res.Raw), v)
 }
 
 func Load(path string) (Config, error) {

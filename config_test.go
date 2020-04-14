@@ -57,6 +57,30 @@ func TestGetSlice(t *testing.T) {
 	testify.Equal(t)([]string{"first", "second", "third"}, c.GetSlice("list"))
 }
 
+func TestGetX(t *testing.T) {
+	type part struct {
+		Name string `json:"name"`
+		Take bool   `json:"take"`
+	}
+
+	type data struct {
+		Size  int    `json:"size"`
+		Parts []part `json:"parts"`
+	}
+
+	c, _ := Load("./config-test.yaml")
+
+	var d data
+	c.GetX("data", &d)
+
+	testify.Equal(t)(10, d.Size)
+	testify.Equal(t)(2, len(d.Parts))
+	testify.Equal(t)("first", d.Parts[0].Name)
+	testify.True(t)(d.Parts[0].Take)
+	testify.Equal(t)("second", d.Parts[1].Name)
+	testify.False(t)(d.Parts[1].Take)
+}
+
 func TestGet_Env(t *testing.T) {
 	envGTM, envPass, unset := setEnvVar()
 	defer unset()

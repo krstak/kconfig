@@ -10,3 +10,10 @@ database:
   timeout: 12
   dialect: "postgres"
   url: "postgres://dbuser:env[DB_PASS]@localhost:5432/dbname?sslmode=disable"
+data:
+  size: 10
+  parts:
+  - name: "first"
+    take: true
+  - name: "second"
+    take: false
