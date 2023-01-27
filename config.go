@@ -80,17 +80,21 @@ func (c Config) GetX(key string, v interface{}) error {
 	return json.Unmarshal([]byte(res.Raw), v)
 }
 
-func Load(path string) (Config, error) {
-	f, err := ioutil.ReadFile(path)
-	if err != nil {
-		return Config{}, fmt.Errorf("unable to load config: #%v", err)
-	}
-	json, err := yaml.YAMLToJSON(f)
+func LoadContent(content []byte) (Config, error) {
+	json, err := yaml.YAMLToJSON(content)
 	if err != nil {
 		return Config{}, fmt.Errorf("unable to transfer to json: #%v", err)
 	}
 
 	return Config{envVar(string(json))}, nil
+}
+
+func Load(path string) (Config, error) {
+	f, err := ioutil.ReadFile(path)
+	if err != nil {
+		return Config{}, fmt.Errorf("unable to load config: #%v", err)
+	}
+	return LoadContent(f)
 }
 
 func envVar(json string) string {
