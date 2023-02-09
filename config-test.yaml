@@ -12,6 +12,7 @@ database:
   url: "postgres://dbuser:env[DB_PASS]@localhost:5432/dbname?sslmode=disable"
 data:
   size: 10
+  secret: env[SECRET_PASS|super-secret]
   parts:
   - name: "first"
     take: true

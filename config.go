@@ -101,7 +101,19 @@ func envVar(json string) string {
 	varReg := regexp.MustCompile(`env\[([^\]]+)\]`)
 	envs := varReg.FindAllStringSubmatch(json, -1)
 	for _, env := range envs {
-		json = strings.Replace(json, env[0], os.Getenv(env[1]), -1)
+		key := env[1]
+		def := ""
+		if strings.Contains(key, "|") {
+			parts := strings.Split(key, "|")
+			key = parts[0]
+			def = parts[1]
+		}
+
+		value, present := os.LookupEnv(key)
+		if !present {
+			value = def
+		}
+		json = strings.Replace(json, env[0], value, -1)
 	}
 
 	return json

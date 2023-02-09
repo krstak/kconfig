@@ -94,6 +94,28 @@ func TestGet_Env(t *testing.T) {
 	testify.Equal(t)(fmt.Sprintf("postgres://dbuser:%s@localhost:5432/dbname?sslmode=disable", envPass), c.Get("database.url"))
 }
 
+func TestGet_EnvWithDefault_EnvIsNotSet(t *testing.T) {
+	file := "./config-test.yaml"
+
+	c, err := Load(file)
+
+	testify.Nil(t)(err)
+	testify.Equal(t)("super-secret", c.Get("data.secret"))
+}
+
+func TestGet_EnvWithDefault_EnvIsSet(t *testing.T) {
+	pass := "yoyo-pass"
+	os.Setenv("SECRET_PASS", pass)
+	defer os.Unsetenv("SECRET_PASS")
+
+	file := "./config-test.yaml"
+
+	c, err := Load(file)
+
+	testify.Nil(t)(err)
+	testify.Equal(t)(pass, c.Get("data.secret"))
+}
+
 func setEnvVar() (string, string, func()) {
 	unset := func() {
 		os.Unsetenv("GTM_ENV")

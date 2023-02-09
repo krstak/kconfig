@@ -8,6 +8,7 @@ database:
   use: true
   dialect: "postgres"
   timeout: 12
+  secret: env[SECRET_PASS|super-secret]
 list: 
   - "first"
   - "second"
@@ -39,4 +40,7 @@ c.GetSlice("list")
 
 // returns a value of environment variable GTM_ENV as a string
 c.Get("gtm")
+
+// returns a value of environment variable SECRET_PASS as a string. If not exists, it returns a default value super-secret
+c.Get("database.secret")
 ```
